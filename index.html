@@ -1,0 +1,1360 @@
+﻿<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0b1120">
+  <meta name="apple-mobile-web-app-title" content="Hidrata+">
+  <meta name="application-name" content="Hidrata+">
+  <link rel="icon" href="wasser-icon-192.png" type="image/png">
+  <link rel="icon" href="wasser-icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" sizes="180x180" href="wasser-icon-180.png">
+  <link rel="manifest" href="site.webmanifest">
+  <title>Hidrata+</title>
+  <style>
+    :root {
+      --bg: #08111f;
+      --card: #111827;
+      --card-soft: #172033;
+      --text: #eaf2ff;
+      --muted: #9aa9be;
+      --line: rgba(148, 163, 184, 0.18);
+      --blue: #38bdf8;
+      --blue-dark: #2563eb;
+      --green: #22c55e;
+      --amber: #f59e0b;
+      --red: #ef4444;
+      --shadow: 0 18px 45px rgba(0, 0, 0, 0.35);
+    }
+
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html {
+      background: var(--bg);
+      color-scheme: dark;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 12% 0%, rgba(56, 189, 248, 0.2), transparent 24rem),
+        radial-gradient(circle at 90% 12%, rgba(34, 197, 94, 0.12), transparent 20rem),
+        linear-gradient(180deg, #0f172a 0%, #0b1120 48%, #07101d 100%);
+      padding: env(safe-area-inset-top) 14px calc(24px + env(safe-area-inset-bottom));
+    }
+
+    .app {
+      width: min(100%, 620px);
+      margin: 0 auto;
+    }
+
+    header {
+      padding: 22px 4px 14px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 32px;
+      line-height: 1.05;
+      letter-spacing: 0;
+    }
+
+    .subline {
+      margin: 8px 0 0;
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    .stack {
+      display: grid;
+      gap: 14px;
+    }
+
+    .card {
+      background: linear-gradient(180deg, rgba(23, 32, 51, 0.96), rgba(17, 24, 39, 0.98));
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      box-shadow: var(--shadow);
+      padding: 16px;
+    }
+
+    h2 {
+      margin: 0 0 14px;
+      font-size: 20px;
+      letter-spacing: 0;
+    }
+
+    form {
+      display: grid;
+      gap: 13px;
+    }
+
+    label {
+      display: grid;
+      gap: 7px;
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    input,
+    select {
+      width: 100%;
+      min-height: 56px;
+      border-radius: 15px;
+      border: 1px solid var(--line);
+      background: #0f172a;
+      color: var(--text);
+      padding: 0 14px;
+      font-size: 19px;
+      outline: none;
+    }
+
+    input:focus,
+    select:focus {
+      border-color: rgba(56, 189, 248, 0.85);
+      box-shadow: 0 0 0 4px rgba(56, 189, 248, 0.14);
+    }
+
+    input[type="date"],
+    input[type="time"],
+    input[type="number"] {
+      appearance: none;
+      -webkit-appearance: none;
+    }
+
+    .two {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .drink-tabs {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 10px;
+    }
+
+    .drink-tab {
+      min-height: 54px;
+      background: #0f172a;
+      border: 1px solid var(--line);
+      color: var(--text);
+      box-shadow: none;
+    }
+
+    .drink-tab.active {
+      border-color: rgba(56, 189, 248, 0.9);
+      background: linear-gradient(135deg, rgba(37, 99, 235, 0.92), rgba(56, 189, 248, 0.92));
+    }
+
+    .entry-fields {
+      display: grid;
+      gap: 13px;
+    }
+
+    .quick-tabs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .quick-btn {
+      min-height: 86px;
+      font-size: 20px;
+      border-radius: 18px;
+    }
+
+    .quick-glass {
+      background: linear-gradient(135deg, var(--blue-dark), var(--blue));
+      box-shadow: 0 14px 28px rgba(37, 99, 235, 0.32);
+    }
+
+    .quick-bottle {
+      background: linear-gradient(135deg, #15803d, var(--green));
+      box-shadow: 0 14px 28px rgba(34, 197, 94, 0.28);
+    }
+
+    .custom-amount summary {
+      cursor: pointer;
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 700;
+      padding: 4px 2px;
+      list-style: none;
+    }
+
+    .custom-amount summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .custom-amount summary::before {
+      content: "\25b8  ";
+    }
+
+    .custom-amount[open] summary::before {
+      content: "\25be  ";
+    }
+
+    .custom-amount form {
+      margin-top: 12px;
+    }
+
+    .toast {
+      position: fixed;
+      left: 50%;
+      bottom: calc(20px + env(safe-area-inset-bottom));
+      transform: translate(-50%, 12px);
+      background: rgba(15, 23, 42, 0.97);
+      border: 1px solid var(--line);
+      color: var(--text);
+      padding: 12px 20px;
+      border-radius: 14px;
+      font-weight: 800;
+      font-size: 14px;
+      box-shadow: var(--shadow);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s ease, transform 0.2s ease;
+      z-index: 50;
+      max-width: calc(100% - 28px);
+      text-align: center;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translate(-50%, 0);
+    }
+
+    button {
+      width: 100%;
+      min-height: 60px;
+      border: 0;
+      border-radius: 16px;
+      color: white;
+      font-size: 18px;
+      font-weight: 800;
+      cursor: pointer;
+      touch-action: manipulation;
+    }
+
+    button:active {
+      transform: translateY(1px);
+      filter: brightness(0.96);
+    }
+
+    .save {
+      margin-top: 2px;
+      background: linear-gradient(135deg, var(--blue-dark), var(--blue));
+      box-shadow: 0 14px 28px rgba(37, 99, 235, 0.32);
+    }
+
+    .secondary {
+      background: #243145;
+      border: 1px solid var(--line);
+      color: var(--text);
+    }
+
+    .danger {
+      background: linear-gradient(135deg, #dc2626, var(--red));
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .stat {
+      min-width: 0;
+      background: rgba(15, 23, 42, 0.72);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 14px;
+    }
+
+    .label {
+      color: var(--muted);
+      font-size: 13px;
+      margin-bottom: 8px;
+    }
+
+    .value {
+      font-size: 27px;
+      line-height: 1.1;
+      font-weight: 900;
+      font-variant-numeric: tabular-nums;
+      overflow-wrap: anywhere;
+    }
+
+    .sublabel {
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 700;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .progress-wrap {
+      margin-top: 14px;
+      display: grid;
+      gap: 8px;
+    }
+
+    .progress-meta {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .progress {
+      height: 15px;
+      overflow: hidden;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.95);
+      border: 1px solid var(--line);
+    }
+
+    .progress-bar {
+      width: 0%;
+      height: 100%;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--blue-dark), var(--blue), var(--green));
+      transition: width 0.25s ease;
+    }
+
+    .reminder {
+      display: none;
+      background: rgba(245, 158, 11, 0.12);
+      border: 1px solid rgba(245, 158, 11, 0.32);
+      color: #fde68a;
+      border-radius: 16px;
+      padding: 14px;
+      font-weight: 800;
+      line-height: 1.35;
+    }
+
+    .reminder.show {
+      display: block;
+    }
+
+    .warning {
+      display: none;
+      background: rgba(239, 68, 68, 0.12);
+      border: 1px solid rgba(239, 68, 68, 0.35);
+      color: #fecaca;
+      border-radius: 16px;
+      padding: 14px;
+      font-weight: 700;
+      line-height: 1.4;
+      font-size: 14px;
+    }
+
+    .warning.show {
+      display: block;
+    }
+
+    .entries {
+      display: grid;
+      gap: 10px;
+    }
+
+    .entry {
+      display: grid;
+      grid-template-columns: 1fr 48px;
+      gap: 12px;
+      align-items: center;
+      background: rgba(15, 23, 42, 0.72);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 12px;
+    }
+
+    .entry-title {
+      font-size: 17px;
+      font-weight: 850;
+      margin-bottom: 5px;
+    }
+
+    .entry-info {
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.35;
+    }
+
+    .entry-water {
+      color: var(--blue);
+      font-weight: 850;
+      margin-top: 5px;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .entry-coffee {
+      color: #fbbf24;
+      font-weight: 850;
+      margin-top: 5px;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .entry-tea {
+      color: #2dd4bf;
+      font-weight: 850;
+      margin-top: 5px;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .delete {
+      width: 48px;
+      height: 48px;
+      min-height: 48px;
+      border-radius: 14px;
+      font-size: 25px;
+      line-height: 1;
+      background: rgba(239, 68, 68, 0.18);
+      color: #fecaca;
+      border: 1px solid rgba(239, 68, 68, 0.32);
+    }
+
+    .empty {
+      color: var(--muted);
+      background: rgba(15, 23, 42, 0.55);
+      border: 1px dashed var(--line);
+      border-radius: 16px;
+      padding: 18px;
+      text-align: center;
+    }
+
+    .day-group > summary {
+      cursor: pointer;
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 800;
+      list-style: none;
+      padding: 6px 2px;
+    }
+
+    .day-group > summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .day-group > summary::before {
+      content: "\25b8  ";
+    }
+
+    .day-group[open] > summary::before {
+      content: "\25be  ";
+    }
+
+    .day-group-list {
+      margin-top: 8px;
+      display: grid;
+      gap: 10px;
+    }
+
+    .sport-list {
+      margin-top: 14px;
+      display: grid;
+      gap: 10px;
+    }
+
+    .actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .tiny {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.4;
+      margin: 10px 0 0;
+    }
+
+    @media (max-width: 430px) {
+      body {
+        padding-left: 12px;
+        padding-right: 12px;
+      }
+
+      h1 {
+        font-size: 29px;
+      }
+
+      .two,
+      .actions {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="app">
+    <header>
+      <h1>Hidrata+</h1>
+      <p class="subline" id="dayName">Heute</p>
+    </header>
+
+    <section class="stack">
+      <div class="warning" id="storageWarning">&#9888; Dein Browser blockiert lokalen Speicher f&uuml;r diese Seite. Eintr&auml;ge werden nur angezeigt, solange die Seite ge&ouml;ffnet bleibt, und gehen beim Neuladen/Schlie&szlig;en verloren.</div>
+      <div class="reminder" id="reminderBox">Zeit f&uuml;r ein Glas Wasser.</div>
+
+      <div class="card">
+        <h2>Eintragen</h2>
+        <div class="entry-fields">
+          <label>
+            Datum
+            <input id="dateInput" type="date" required>
+          </label>
+
+          <div>
+            <label>Getr&auml;nk</label>
+            <div class="drink-tabs">
+              <button class="drink-tab active" id="waterButton" type="button">Wasser</button>
+              <button class="drink-tab" id="coffeeButton" type="button">Kaffee</button>
+              <button class="drink-tab" id="teaButton" type="button">Tee</button>
+            </div>
+          </div>
+
+          <div class="quick-tabs">
+            <button class="quick-btn quick-glass" id="quickGlassButton" type="button">+ 1 Glas</button>
+            <button class="quick-btn quick-bottle" id="quickBottleButton" type="button">+ 1 Flasche</button>
+          </div>
+
+          <details class="custom-amount">
+            <summary>Eigene Menge eintragen</summary>
+            <form id="drinkForm">
+              <div class="two">
+                <label>
+                  Flaschen
+                  <input id="bottleInput" type="number" inputmode="decimal" min="0" step="0.5" placeholder="z.B. 1">
+                </label>
+                <label>
+                  Gl&auml;ser
+                  <input id="glassInput" type="number" inputmode="decimal" min="0" step="0.5" placeholder="z.B. 2">
+                </label>
+              </div>
+              <button class="save" type="submit">Speichern</button>
+            </form>
+          </details>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>Sport</h2>
+        <button class="secondary" id="sportButton" type="button">+ Sport eintragen</button>
+        <div class="sport-list" id="sportEntries"></div>
+      </div>
+
+      <div class="card">
+        <h2>Heute</h2>
+        <div class="stats">
+          <div class="stat">
+            <div class="label">Wasser - Flaschen</div>
+            <div class="value" id="waterBottleTotal">0</div>
+            <div class="sublabel" id="waterBottleLiters">&asymp; 0,0 l</div>
+          </div>
+          <div class="stat">
+            <div class="label">Wasser - Gl&auml;ser</div>
+            <div class="value" id="waterGlassTotal">0</div>
+            <div class="sublabel" id="waterGlassLiters">&asymp; 0,0 l</div>
+          </div>
+          <div class="stat">
+            <div class="label">Kaffee - Flaschen</div>
+            <div class="value" id="coffeeBottleTotal">0</div>
+            <div class="sublabel" id="coffeeBottleLiters">&asymp; 0,0 l</div>
+          </div>
+          <div class="stat">
+            <div class="label">Kaffee - Gl&auml;ser</div>
+            <div class="value" id="coffeeGlassTotal">0</div>
+            <div class="sublabel" id="coffeeGlassLiters">&asymp; 0,0 l</div>
+          </div>
+          <div class="stat">
+            <div class="label">Tee - Flaschen</div>
+            <div class="value" id="teaBottleTotal">0</div>
+            <div class="sublabel" id="teaBottleLiters">&asymp; 0,0 l</div>
+          </div>
+          <div class="stat">
+            <div class="label">Tee - Gl&auml;ser</div>
+            <div class="value" id="teaGlassTotal">0</div>
+            <div class="sublabel" id="teaGlassLiters">&asymp; 0,0 l</div>
+          </div>
+        </div>
+
+        <div class="progress-wrap">
+          <div class="progress-meta">
+            <span>Flaschenziel</span>
+            <span id="bottleGoalText">0 / 0</span>
+          </div>
+          <div class="progress" aria-hidden="true">
+            <div class="progress-bar" id="bottleProgressBar"></div>
+          </div>
+        </div>
+        <div class="progress-wrap">
+          <div class="progress-meta">
+            <span>Glasziel</span>
+            <span id="glassGoalText">0 / 0</span>
+          </div>
+          <div class="progress" aria-hidden="true">
+            <div class="progress-bar" id="glassProgressBar"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>Erinnerung</h2>
+        <div class="two">
+          <label>
+            Intervall
+            <select id="reminderInterval">
+              <option value="0">Aus</option>
+              <option value="30">Alle 30 Minuten</option>
+              <option value="60">Alle 60 Minuten</option>
+              <option value="90">Alle 90 Minuten</option>
+              <option value="120">Alle 2 Stunden</option>
+            </select>
+          </label>
+        </div>
+        <div class="two">
+          <label>
+            Flaschenziel pro Tag
+            <select id="bottleGoalInput">
+              <option value="1">1 Flasche</option>
+              <option value="2">2 Flaschen</option>
+              <option value="3">3 Flaschen</option>
+              <option value="4">4 Flaschen</option>
+              <option value="5">5 Flaschen</option>
+              <option value="6">6 Flaschen</option>
+            </select>
+          </label>
+          <label>
+            Glasziel pro Tag
+            <select id="glassGoalInput">
+              <option value="4">4 Gl&auml;ser</option>
+              <option value="6">6 Gl&auml;ser</option>
+              <option value="8">8 Gl&auml;ser</option>
+              <option value="10">10 Gl&auml;ser</option>
+              <option value="12">12 Gl&auml;ser</option>
+              <option value="13">13 Gl&auml;ser</option>
+              <option value="14">14 Gl&auml;ser</option>
+              <option value="15">15 Gl&auml;ser</option>
+              <option value="16">16 Gl&auml;ser</option>
+              <option value="18">18 Gl&auml;ser</option>
+              <option value="20">20 Gl&auml;ser</option>
+            </select>
+          </label>
+        </div>
+        <div class="two">
+          <label>
+            Flasche in Litern
+            <input id="bottleSizeInput" type="number" inputmode="decimal" min="0.1" step="0.05" placeholder="0,6">
+          </label>
+          <label>
+            Glas in Litern
+            <input id="glassSizeInput" type="number" inputmode="decimal" min="0.05" step="0.05" placeholder="0,2">
+          </label>
+        </div>
+        <button class="secondary" id="notifyButton" type="button">Benachrichtigung erlauben</button>
+        <p class="tiny">Lokale Handy-Browser zeigen Benachrichtigungen je nach System nur, wenn die Datei ge&ouml;ffnet bleibt. Der Hinweis oben funktioniert immer innerhalb der Seite.</p>
+      </div>
+
+      <div class="card">
+        <h2>Eintr&auml;ge</h2>
+        <div class="entries" id="entries"></div>
+      </div>
+
+      <div class="card">
+        <h2>Daten</h2>
+        <div class="actions">
+          <button class="secondary" id="exportButton" type="button">CSV Export</button>
+          <button class="danger" id="resetButton" type="button">Alles l&ouml;schen</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div class="toast" id="toastBox"></div>
+
+  <script>
+    const STORAGE_KEY = "simple_water_tracker_entries_v1";
+    const SETTINGS_KEY = "simple_water_tracker_settings_v1";
+    const SPORT_KEY = "simple_water_tracker_sport_v1";
+
+    let entries = loadEntries();
+    let settings = loadSettings();
+    let sportDays = loadSportDays();
+    let drinkType = "water";
+    let reminderTimer = null;
+    let lastReminderAt = 0;
+
+    const form = document.getElementById("drinkForm");
+    const dateInput = document.getElementById("dateInput");
+    const bottleInput = document.getElementById("bottleInput");
+    const glassInput = document.getElementById("glassInput");
+    const waterButton = document.getElementById("waterButton");
+    const coffeeButton = document.getElementById("coffeeButton");
+    const teaButton = document.getElementById("teaButton");
+    const quickGlassButton = document.getElementById("quickGlassButton");
+    const quickBottleButton = document.getElementById("quickBottleButton");
+    const sportButton = document.getElementById("sportButton");
+    const sportEntriesEl = document.getElementById("sportEntries");
+    const toastBox = document.getElementById("toastBox");
+    const storageWarning = document.getElementById("storageWarning");
+    const entriesEl = document.getElementById("entries");
+    const waterBottleTotalEl = document.getElementById("waterBottleTotal");
+    const waterBottleLitersEl = document.getElementById("waterBottleLiters");
+    const waterGlassTotalEl = document.getElementById("waterGlassTotal");
+    const waterGlassLitersEl = document.getElementById("waterGlassLiters");
+    const coffeeBottleTotalEl = document.getElementById("coffeeBottleTotal");
+    const coffeeBottleLitersEl = document.getElementById("coffeeBottleLiters");
+    const coffeeGlassTotalEl = document.getElementById("coffeeGlassTotal");
+    const coffeeGlassLitersEl = document.getElementById("coffeeGlassLiters");
+    const teaBottleTotalEl = document.getElementById("teaBottleTotal");
+    const teaBottleLitersEl = document.getElementById("teaBottleLiters");
+    const teaGlassTotalEl = document.getElementById("teaGlassTotal");
+    const teaGlassLitersEl = document.getElementById("teaGlassLiters");
+    const dayNameEl = document.getElementById("dayName");
+    const reminderBox = document.getElementById("reminderBox");
+    const reminderInterval = document.getElementById("reminderInterval");
+    const bottleGoalInput = document.getElementById("bottleGoalInput");
+    const glassGoalInput = document.getElementById("glassGoalInput");
+    const bottleSizeInput = document.getElementById("bottleSizeInput");
+    const glassSizeInput = document.getElementById("glassSizeInput");
+    const bottleGoalText = document.getElementById("bottleGoalText");
+    const bottleProgressBar = document.getElementById("bottleProgressBar");
+    const glassGoalText = document.getElementById("glassGoalText");
+    const glassProgressBar = document.getElementById("glassProgressBar");
+
+    const dateFormatter = new Intl.DateTimeFormat("de-DE", {
+      weekday: "long",
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric"
+    });
+
+    const timeFormatter = new Intl.DateTimeFormat("de-DE", {
+      hour: "2-digit",
+      minute: "2-digit"
+    });
+
+    storageWarning.classList.toggle("show", !isStorageAvailable());
+
+    dateInput.value = toDateValue(new Date());
+    dayNameEl.textContent = dateFormatter.format(new Date());
+    reminderInterval.value = String(settings.reminderMinutes);
+    ensureGoalOption(bottleGoalInput, settings.bottleGoal, "Flasche", "Flaschen");
+    ensureGoalOption(glassGoalInput, settings.glassGoal, "Glas", "Gläser");
+    bottleSizeInput.value = formatInputNumber(settings.bottleLiters);
+    glassSizeInput.value = formatInputNumber(settings.glassLiters);
+
+    waterButton.addEventListener("click", () => setDrinkType("water"));
+    coffeeButton.addEventListener("click", () => setDrinkType("coffee"));
+    teaButton.addEventListener("click", () => setDrinkType("tea"));
+
+    quickGlassButton.addEventListener("click", () => {
+      addEntry(0, 1);
+    });
+
+    quickBottleButton.addEventListener("click", () => {
+      addEntry(1, 0);
+    });
+
+    sportButton.addEventListener("click", () => {
+      toggleSport(dateInput.value || toDateValue(new Date()));
+    });
+
+    dateInput.addEventListener("change", renderSport);
+
+    form.addEventListener("submit", event => {
+      event.preventDefault();
+
+      const bottles = parseAmount(bottleInput.value);
+      const glasses = parseAmount(glassInput.value);
+
+      if (bottles <= 0 && glasses <= 0) {
+        alert("Bitte mindestens eine Flasche oder ein Glas eintragen.");
+        return;
+      }
+
+      addEntry(bottles, glasses);
+      form.reset();
+    });
+
+    reminderInterval.addEventListener("change", () => {
+      settings.reminderMinutes = Number(reminderInterval.value);
+      saveSettings();
+      startReminderTimer();
+    });
+
+    bottleGoalInput.addEventListener("change", () => {
+      settings.bottleGoal = parseGoalAmount(bottleGoalInput.value, 2);
+      bottleGoalInput.value = String(settings.bottleGoal);
+      saveSettings();
+      render();
+    });
+
+    glassGoalInput.addEventListener("change", () => {
+      settings.glassGoal = parseGoalAmount(glassGoalInput.value, 6);
+      glassGoalInput.value = String(settings.glassGoal);
+      saveSettings();
+      render();
+    });
+
+    bottleSizeInput.addEventListener("change", () => {
+      settings.bottleLiters = parseSettingAmount(bottleSizeInput.value, 0.6);
+      bottleSizeInput.value = formatInputNumber(settings.bottleLiters);
+      saveSettings();
+      render();
+    });
+
+    glassSizeInput.addEventListener("change", () => {
+      settings.glassLiters = parseSettingAmount(glassSizeInput.value, 0.2);
+      glassSizeInput.value = formatInputNumber(settings.glassLiters);
+      saveSettings();
+      render();
+    });
+
+    document.getElementById("notifyButton").addEventListener("click", requestNotifications);
+    document.getElementById("exportButton").addEventListener("click", exportCsv);
+
+    document.getElementById("resetButton").addEventListener("click", () => {
+      if (!confirm("Wirklich alle Einträge löschen?")) return;
+      entries = [];
+      sportDays = [];
+      saveEntries();
+      saveSportDays();
+      render();
+    });
+
+    function drinkTypeLabel(type) {
+      if (type === "water") return "Wasser";
+      if (type === "coffee") return "Kaffee";
+      return "Tee";
+    }
+
+    function entryTypeClass(type) {
+      if (type === "water") return "entry-water";
+      if (type === "coffee") return "entry-coffee";
+      return "entry-tea";
+    }
+
+    function setDrinkType(type) {
+      drinkType = type;
+      waterButton.classList.toggle("active", type === "water");
+      coffeeButton.classList.toggle("active", type === "coffee");
+      teaButton.classList.toggle("active", type === "tea");
+    }
+
+    function addEntry(bottles, glasses) {
+      const date = dateInput.value || toDateValue(new Date());
+
+      entries.push({
+        id: createId(),
+        date,
+        createdISO: new Date().toISOString(),
+        type: drinkType,
+        bottles,
+        glasses,
+        bottleLiters: settings.bottleLiters,
+        glassLiters: settings.glassLiters
+      });
+
+      // Anzeige immer aktualisieren, auch wenn das Speichern fehlschlägt
+      // (z.B. weil der Browser lokalen Speicher für diese Seite blockiert) -
+      // sonst wirkt es so, als würde der Tap gar nichts tun.
+      const saved = saveEntries();
+      hideReminder();
+      render();
+
+      const drinkLabel = drinkTypeLabel(drinkType);
+      const amountLabel = bottles > 0 ? "Flasche" : "Glas";
+
+      if (saved) {
+        showToast(amountLabel + " " + drinkLabel + " eingetragen");
+      } else {
+        showToast("Eingetragen, aber Speichern nicht möglich");
+      }
+    }
+
+    let toastTimer = null;
+
+    function showToast(text) {
+      toastBox.textContent = text;
+      toastBox.classList.add("show");
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => toastBox.classList.remove("show"), 1400);
+    }
+
+    function render() {
+      renderStats();
+      renderEntries();
+      renderSport();
+    }
+
+    function renderStats() {
+      const today = toDateValue(new Date());
+      const todaysEntries = entries.filter(entry => entry.date === today);
+      const waterEntries = todaysEntries.filter(entry => entry.type === "water");
+      const coffeeEntries = todaysEntries.filter(entry => entry.type === "coffee");
+      const teaEntries = todaysEntries.filter(entry => entry.type === "tea");
+
+      const waterBottles = sumBottles(waterEntries);
+      const waterGlasses = sumGlasses(waterEntries);
+      const coffeeGlasses = sumGlasses(coffeeEntries);
+      const teaGlasses = sumGlasses(teaEntries);
+
+      setContainerStat(waterBottleTotalEl, waterBottleLitersEl, waterBottles, sumBottleLiters(waterEntries));
+      setContainerStat(waterGlassTotalEl, waterGlassLitersEl, waterGlasses, sumGlassLiters(waterEntries));
+      setContainerStat(coffeeBottleTotalEl, coffeeBottleLitersEl, sumBottles(coffeeEntries), sumBottleLiters(coffeeEntries));
+      setContainerStat(coffeeGlassTotalEl, coffeeGlassLitersEl, coffeeGlasses, sumGlassLiters(coffeeEntries));
+      setContainerStat(teaBottleTotalEl, teaBottleLitersEl, sumBottles(teaEntries), sumBottleLiters(teaEntries));
+      setContainerStat(teaGlassTotalEl, teaGlassLitersEl, teaGlasses, sumGlassLiters(teaEntries));
+
+      // Flaschenziel und Glasziel bleiben getrennte Ziele (keine Umrechnung/Addition
+      // zwischen Flaschen und Glaesern). Beim Glasziel zaehlen Kaffee- und Teetassen mit,
+      // weil ein Glas ein Glas ist, egal was drin ist.
+      renderGoal(bottleGoalText, bottleProgressBar, waterBottles, settings.bottleGoal);
+      renderGoal(glassGoalText, glassProgressBar, waterGlasses + coffeeGlasses + teaGlasses, settings.glassGoal);
+    }
+
+    function renderGoal(textEl, barEl, count, goal) {
+      const percent = goal > 0 ? Math.min(100, Math.round((count / goal) * 100)) : 0;
+      textEl.textContent = formatAmount(count) + " / " + formatAmount(goal);
+      barEl.style.width = percent + "%";
+    }
+
+    function setContainerStat(totalEl, litersEl, count, liters) {
+      totalEl.textContent = formatAmount(count);
+      litersEl.textContent = "≈ " + formatLiters(liters);
+    }
+
+    function sumBottles(items) {
+      return items.reduce((sum, entry) => sum + entry.bottles, 0);
+    }
+
+    function sumGlasses(items) {
+      return items.reduce((sum, entry) => sum + entry.glasses, 0);
+    }
+
+    function sumBottleLiters(items) {
+      return items.reduce((sum, entry) => sum + entry.bottles * (entry.bottleLiters ?? settings.bottleLiters), 0);
+    }
+
+    function sumGlassLiters(items) {
+      return items.reduce((sum, entry) => sum + entry.glasses * (entry.glassLiters ?? settings.glassLiters), 0);
+    }
+
+    function renderEntries() {
+      const sorted = [...entries].sort((a, b) => {
+        if (a.date !== b.date) return a.date < b.date ? 1 : -1;
+        return new Date(b.createdISO) - new Date(a.createdISO);
+      });
+
+      if (sorted.length === 0) {
+        entriesEl.innerHTML = '<div class="empty">Noch nichts eingetragen.</div>';
+        return;
+      }
+
+      entriesEl.innerHTML = "";
+
+      const today = toDateValue(new Date());
+      const groupDates = [];
+      const groupedByDate = new Map();
+
+      sorted.forEach(entry => {
+        if (!groupedByDate.has(entry.date)) {
+          groupedByDate.set(entry.date, []);
+          groupDates.push(entry.date);
+        }
+        groupedByDate.get(entry.date).push(entry);
+      });
+
+      groupDates.forEach(date => {
+        const dayEntries = groupedByDate.get(date);
+
+        const details = document.createElement("details");
+        details.className = "day-group";
+        details.open = date === today;
+
+        const summary = document.createElement("summary");
+        summary.textContent = formatEntryDate(date) + " (" + dayEntries.length + ")";
+        details.appendChild(summary);
+
+        const list = document.createElement("div");
+        list.className = "day-group-list";
+
+        dayEntries.forEach(entry => {
+          const item = document.createElement("div");
+          item.className = "entry";
+
+          const content = document.createElement("div");
+
+          const title = document.createElement("div");
+          title.className = "entry-title";
+          title.textContent = formatEntryTime(entry.createdISO) + " - " + drinkTypeLabel(entry.type);
+
+          const info = document.createElement("div");
+          info.className = "entry-info";
+          info.textContent = formatEntryInfo(entry);
+
+          const amount = document.createElement("div");
+          amount.className = entryTypeClass(entry.type);
+          amount.textContent = formatLiters(entryLiters(entry));
+
+          const deleteButton = document.createElement("button");
+          deleteButton.className = "delete";
+          deleteButton.type = "button";
+          deleteButton.setAttribute("aria-label", "Eintrag löschen");
+          deleteButton.textContent = "x";
+          deleteButton.addEventListener("click", () => deleteEntry(entry.id));
+
+          content.appendChild(title);
+          content.appendChild(info);
+          content.appendChild(amount);
+          item.appendChild(content);
+          item.appendChild(deleteButton);
+          list.appendChild(item);
+        });
+
+        details.appendChild(list);
+        entriesEl.appendChild(details);
+      });
+    }
+
+    function formatEntryInfo(entry) {
+      const parts = [];
+
+      if (entry.bottles > 0) {
+        parts.push(formatAmount(entry.bottles) + (entry.bottles === 1 ? " Flasche" : " Flaschen"));
+      }
+
+      if (entry.glasses > 0) {
+        parts.push(formatAmount(entry.glasses) + (entry.glasses === 1 ? " Glas" : " Gläser"));
+      }
+
+      return parts.length ? parts.join(" + ") : "0 Flaschen";
+    }
+
+    function deleteEntry(id) {
+      if (!confirm("Diesen Eintrag löschen?")) return;
+      entries = entries.filter(entry => entry.id !== id);
+      saveEntries();
+      render();
+    }
+
+    function toggleSport(date) {
+      const marked = sportDays.includes(date);
+
+      if (marked) {
+        sportDays = sportDays.filter(day => day !== date);
+      } else {
+        sportDays.push(date);
+      }
+
+      const saved = saveSportDays();
+      render();
+
+      if (marked) {
+        showToast("Sport entfernt");
+      } else if (saved) {
+        showToast("Sport eingetragen");
+      } else {
+        showToast("Eingetragen, aber Speichern nicht möglich");
+      }
+    }
+
+    function removeSportDay(date) {
+      sportDays = sportDays.filter(day => day !== date);
+      saveSportDays();
+      render();
+    }
+
+    function renderSport() {
+      const selectedDate = dateInput.value || toDateValue(new Date());
+      const marked = sportDays.includes(selectedDate);
+
+      sportButton.textContent = marked ? "✓ Sport eingetragen" : "+ Sport eintragen";
+      sportButton.classList.toggle("secondary", !marked);
+      sportButton.classList.toggle("quick-bottle", marked);
+
+      const sorted = [...sportDays].sort((a, b) => (a < b ? 1 : -1));
+
+      if (sorted.length === 0) {
+        sportEntriesEl.innerHTML = '<div class="empty">Noch kein Sporttag eingetragen.</div>';
+        return;
+      }
+
+      sportEntriesEl.innerHTML = "";
+
+      sorted.forEach(date => {
+        const item = document.createElement("div");
+        item.className = "entry";
+
+        const title = document.createElement("div");
+        title.className = "entry-title";
+        title.textContent = formatEntryDate(date);
+
+        const deleteButton = document.createElement("button");
+        deleteButton.className = "delete";
+        deleteButton.type = "button";
+        deleteButton.setAttribute("aria-label", "Sporttag entfernen");
+        deleteButton.textContent = "x";
+        deleteButton.addEventListener("click", () => removeSportDay(date));
+
+        item.appendChild(title);
+        item.appendChild(deleteButton);
+        sportEntriesEl.appendChild(item);
+      });
+    }
+
+    function startReminderTimer() {
+      if (reminderTimer) clearInterval(reminderTimer);
+      hideReminder();
+
+      if (!settings.reminderMinutes) return;
+
+      lastReminderAt = Date.now();
+      reminderTimer = setInterval(checkReminder, 60000);
+    }
+
+    function checkReminder() {
+      if (!settings.reminderMinutes) return;
+      const dueMs = settings.reminderMinutes * 60 * 1000;
+
+      if (Date.now() - lastReminderAt >= dueMs) {
+        lastReminderAt = Date.now();
+        showReminder();
+      }
+    }
+
+    function showReminder() {
+      reminderBox.textContent = "Zeit für ein Glas Wasser.";
+      reminderBox.classList.add("show");
+
+      if ("Notification" in window && Notification.permission === "granted") {
+        new Notification("Wasser trinken", {
+          body: "Zeit für ein Glas Wasser."
+        });
+      }
+    }
+
+    function hideReminder() {
+      reminderBox.classList.remove("show");
+    }
+
+    function requestNotifications() {
+      if (!("Notification" in window)) {
+        alert("Dein Browser unterst\u00fctzt keine Benachrichtigungen f\u00fcr diese Datei.");
+        return;
+      }
+
+      Notification.requestPermission().then(permission => {
+        if (permission === "granted") {
+          alert("Benachrichtigungen sind aktiviert.");
+        } else {
+          alert("Benachrichtigungen wurden nicht aktiviert.");
+        }
+      });
+    }
+
+    function exportCsv() {
+      if (entries.length === 0) {
+        alert("Keine Eintr\u00e4ge zum Exportieren vorhanden.");
+        return;
+      }
+
+      const header = ["Datum", "Getr\u00e4nk", "Flaschen", "Gl\u00e4ser", "Flasche Liter", "Glas Liter", "Liter ca."];
+      const rows = [...entries]
+        .sort((a, b) => a.date.localeCompare(b.date))
+        .map(entry => [
+          entry.date,
+          drinkTypeLabel(entry.type),
+          String(entry.bottles).replace(".", ","),
+          String(entry.glasses).replace(".", ","),
+          String(entry.bottleLiters ?? settings.bottleLiters).replace(".", ","),
+          String(entry.glassLiters ?? settings.glassLiters).replace(".", ","),
+          entryLiters(entry).toFixed(2).replace(".", ",")
+        ]);
+
+      const csv = [header, ...rows]
+        .map(row => row.map(csvCell).join(";"))
+        .join("\r\n");
+
+      const blob = new Blob(["\ufeff" + csv], { type: "text/csv;charset=utf-8" });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = "wasser-tracker_" + toDateValue(new Date()) + ".csv";
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      URL.revokeObjectURL(url);
+    }
+
+    function ensureGoalOption(selectEl, value, singular, plural) {
+      const strValue = String(value);
+      const exists = Array.from(selectEl.options).some(option => option.value === strValue);
+
+      if (!exists) {
+        const option = document.createElement("option");
+        option.value = strValue;
+        option.textContent = strValue + " " + (value === 1 ? singular : plural);
+        selectEl.appendChild(option);
+      }
+
+      selectEl.value = strValue;
+    }
+
+    function isStorageAvailable() {
+      try {
+        const testKey = "__storage_test__";
+        localStorage.setItem(testKey, "1");
+        localStorage.removeItem(testKey);
+        return true;
+      } catch {
+        return false;
+      }
+    }
+
+    function loadEntries() {
+      try {
+        const saved = localStorage.getItem(STORAGE_KEY);
+        return saved ? JSON.parse(saved) : [];
+      } catch {
+        return [];
+      }
+    }
+
+    function saveEntries() {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(entries));
+        return true;
+      } catch (err) {
+        console.error("Konnte Einträge nicht speichern:", err);
+        return false;
+      }
+    }
+
+    function loadSportDays() {
+      try {
+        const saved = localStorage.getItem(SPORT_KEY);
+        return saved ? JSON.parse(saved) : [];
+      } catch {
+        return [];
+      }
+    }
+
+    function saveSportDays() {
+      try {
+        localStorage.setItem(SPORT_KEY, JSON.stringify(sportDays));
+        return true;
+      } catch (err) {
+        console.error("Konnte Sporttage nicht speichern:", err);
+        return false;
+      }
+    }
+
+    function loadSettings() {
+      const defaults = { reminderMinutes: 60, bottleGoal: 2, glassGoal: 6, bottleLiters: 0.6, glassLiters: 0.2 };
+      try {
+        const saved = localStorage.getItem(SETTINGS_KEY);
+        return Object.assign({}, defaults, saved ? JSON.parse(saved) : {});
+      } catch {
+        return defaults;
+      }
+    }
+
+    function saveSettings() {
+      try {
+        localStorage.setItem(SETTINGS_KEY, JSON.stringify(settings));
+        return true;
+      } catch (err) {
+        console.error("Konnte Einstellungen nicht speichern:", err);
+        return false;
+      }
+    }
+
+    function entryLiters(entry) {
+      const bottleLiters = entry.bottleLiters ?? settings.bottleLiters;
+      const glassLiters = entry.glassLiters ?? settings.glassLiters;
+      return entry.bottles * bottleLiters + entry.glasses * glassLiters;
+    }
+
+    function toDateValue(date) {
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, "0");
+      const day = String(date.getDate()).padStart(2, "0");
+      return year + "-" + month + "-" + day;
+    }
+
+    function formatEntryDate(value) {
+      return dateFormatter.format(new Date(value + "T12:00:00"));
+    }
+
+    function formatEntryTime(createdISO) {
+      const date = createdISO ? new Date(createdISO) : null;
+      if (!date || Number.isNaN(date.getTime())) return "--:--";
+      return timeFormatter.format(date);
+    }
+
+    function formatLiters(value) {
+      return value.toLocaleString("de-DE", {
+        minimumFractionDigits: 1,
+        maximumFractionDigits: 1
+      }) + " l";
+    }
+
+    function formatAmount(value) {
+      return value.toLocaleString("de-DE", {
+        maximumFractionDigits: 1
+      });
+    }
+
+    function formatInputNumber(value) {
+      return String(value).replace(".", ",");
+    }
+
+    function parseAmount(value) {
+      return Math.max(0, Number(String(value || "0").replace(",", ".")) || 0);
+    }
+
+    function parseSettingAmount(value, fallback) {
+      const parsed = Number(String(value || "").replace(",", "."));
+      return parsed > 0 ? parsed : fallback;
+    }
+
+    function parseGoalAmount(value, fallback) {
+      const parsed = Math.round(Number(String(value || "").replace(",", ".")));
+      return parsed > 0 ? parsed : fallback;
+    }
+
+    function csvCell(value) {
+      const text = String(value ?? "");
+      return '"' + text.replace(/"/g, '""') + '"';
+    }
+
+    function createId() {
+      return Date.now().toString(36) + Math.random().toString(36).slice(2, 9);
+    }
+
+    render();
+    startReminderTimer();
+  </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
